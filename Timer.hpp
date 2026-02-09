@@ -1,26 +1,34 @@
-//
-// Created by Steven Roddan on 2/6/2026.
-//
-
 #ifndef CUDAHISTOGRAMS_TIMER_HPP
 #define CUDAHISTOGRAMS_TIMER_HPP
 
 #include <chrono>
-#include <unordered_map>
+#include <map>
 #include <mutex>
+#include <string>
+#include <tuple>
 
 namespace timing {
 
     using clock = std::chrono::high_resolution_clock;
     using time_point = clock::time_point;
 
-    inline std::unordered_map<std::string, double>& totals() {
-        static std::unordered_map<std::string, double> map;
+    struct Key {
+        std::string testName;
+        std::size_t dataSize;
+
+        bool operator<(const Key& other) const {
+            return std::tie(testName, dataSize) <
+                   std::tie(other.testName, other.dataSize);
+        }
+    };
+
+    inline std::map<Key, double>& totals() {
+        static std::map<Key, double> map;
         return map;
     }
 
-    inline std::unordered_map<std::string, time_point>& starts() {
-        static std::unordered_map<std::string, time_point> map;
+    inline std::map<Key, time_point>& starts() {
+        static std::map<Key, time_point> map;
         return map;
     }
 
@@ -28,23 +36,23 @@ namespace timing {
         static std::mutex m;
         return m;
     }
-
 }
 
-
-#define TIMING_BEGIN(KEY)                           \
+#define TIMING_BEGIN(NAME, SIZE)                    \
 do {                                                \
-std::lock_guard<std::mutex> lock(timing::mutex());  \
-timing::starts()[KEY] = timing::clock::now();       \
+std::lock_guard<std::mutex> lock(timing::mutex()); \
+timing::Key key{ NAME, SIZE };                  \
+timing::starts()[key] = timing::clock::now();   \
 } while (0)
 
-#define TIMING_END(KEY)                             \
+#define TIMING_END(NAME, SIZE)                      \
 do {                                                \
-auto end = timing::clock::now();                    \
-std::lock_guard<std::mutex> lock(timing::mutex());  \
-auto start = timing::starts().at(KEY);              \
+auto end = timing::clock::now();                \
+std::lock_guard<std::mutex> lock(timing::mutex()); \
+timing::Key key{ NAME, SIZE };                  \
+auto start = timing::starts().at(key);          \
 double ms = std::chrono::duration<double, std::milli>(end - start).count(); \
-timing::totals()[KEY] += ms;                        \
+timing::totals()[key] += ms;                    \
 } while (0)
 
-#endif //CUDAHISTOGRAMS_TIMER_HPP
+#endif // CUDAHISTOGRAMS_TIMER_HPP
