@@ -5,7 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CUDA_STANDARD 20)
 
 add_library(CpuHistograms Common.cpp
-        NaiveThreadedHistogram.cpp NaiveHistogramSolver.cpp)
+        NaiveThreadedHistogram.cpp NaiveHistogramSolver.cpp
+        ThreadedChunkedHistogram.cpp
+        ThreadedReducedHistogram.cpp)
 
 add_executable(CudaHistograms  main.cu)
 

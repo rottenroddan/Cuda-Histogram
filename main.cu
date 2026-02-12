@@ -1,6 +1,8 @@
 
 #include "NaiveHistogramSolver.hpp"
 #include "NaiveThreadedHistogram.hpp"
+#include "ThreadedChunkedHistogram.hpp"
+#include "ThreadedReducedHistogram.hpp"
 #include "TableStats.hpp"
 
 #include <cuda_runtime.h>
@@ -13,13 +15,15 @@
 
 
 
-constexpr size_t iterations = 5;
+constexpr size_t iterations = 1;
 constexpr size_t smallDataSize = 100000;
 constexpr size_t mediumDataSize = smallDataSize * 100;
 constexpr size_t largeDataSize = mediumDataSize * 100;
+constexpr size_t hugeDataSize = largeDataSize * 10;
 
-std::vector V_TEST_SIZES = {smallDataSize, mediumDataSize, largeDataSize};
-std::vector V_BIN_SIZES = {256, 256*16, 256*16*16};
+
+std::vector V_TEST_SIZES = {smallDataSize, mediumDataSize, largeDataSize, hugeDataSize};
+std::vector V_BIN_SIZES = {128, 256};
 
 std::string comma_separate(const size_t value) {
     std::ostringstream oss;
@@ -52,13 +56,18 @@ int main() {
             solveNaiveHistogram(data, truthHistogram, testSize);
 
             for (int i = 0; i < iterations; ++i) {
-                profile_naive_cpu_histogram(data, truthHistogram, testHistogram, testSize, binSize, "Naive One Thread CPU-Histogram_" + std::to_string(binSize));
+                profile_naive_cpu_histogram(data, truthHistogram, testHistogram, testSize, binSize, "Baseline");
 
                 // this test relies on lock_guards for threads accessing the histogram, it is purely dumb
                 // and takes a long time to run.
                 if (testSize == *V_TEST_SIZES.begin()) {
-                    profile_threaded_naive_cpu_histogram(data, truthHistogram, testHistogram, testSize, binSize, "Naive Threaded CPU-Histogram_" + std::to_string(binSize));
+                    profile_threaded_naive_cpu_histogram(data, truthHistogram, testHistogram, testSize, binSize, "Naive Threaded CPU-Histogram");
                 }
+                profile_threaded_chunked_cpu_histogram(data, truthHistogram, testHistogram,
+                                                        testSize, binSize, 8/*thread amount*/, "Threaded Chunked CPU-Histogram (False Sharing possible)");
+
+                profile_threaded_reduced_cpu_histogram(data, truthHistogram, testHistogram,
+                                                        testSize, binSize, 8/*thread amount*/, "Threaded Reduction CPU-Histogram");
             }
         }
     }

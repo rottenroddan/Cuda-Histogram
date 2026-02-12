@@ -7,8 +7,8 @@
 
 #include <memory>
 #include <string>
-#include "HostTester.hpp"
 #include "Common.hpp"
+#include "Timer.hpp"
 
 template<typename T, typename U>
 void solveNaiveHistogram(const T& data, const U& histogram, const size_t size) {
