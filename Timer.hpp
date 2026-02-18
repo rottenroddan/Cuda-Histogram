@@ -14,11 +14,13 @@ namespace timing {
 
     struct Key {
         std::string testName;
+        std::size_t binSize;
         std::size_t dataSize;
+        std::size_t threadCount;
 
         bool operator<(const Key& other) const {
-            return std::tie(testName, dataSize) <
-                   std::tie(other.testName, other.dataSize);
+            return std::tie(dataSize, binSize, testName, threadCount) <
+                   std::tie(other.dataSize, other.binSize, other.testName, other.threadCount);
         }
     };
 
@@ -38,21 +40,21 @@ namespace timing {
     }
 }
 
-#define TIMING_BEGIN(NAME, SIZE)                    \
+#define TIMING_BEGIN(NAME, BIN, SIZE, THREADS)               \
 do {                                                \
 std::lock_guard<std::mutex> lock(timing::mutex()); \
-timing::Key key{ NAME, SIZE };                  \
+timing::Key key{ NAME, BIN, SIZE, THREADS };             \
 timing::starts()[key] = timing::clock::now();   \
 } while (0)
 
-#define TIMING_END(NAME, SIZE)                      \
+#define TIMING_END(NAME, BIN, SIZE, THREADS)                 \
 do {                                                \
 auto end = timing::clock::now();                \
 std::lock_guard<std::mutex> lock(timing::mutex()); \
-timing::Key key{ NAME, SIZE };                  \
+timing::Key key{ NAME, BIN, SIZE, THREADS };             \
 auto start = timing::starts().at(key);          \
 double ms = std::chrono::duration<double, std::milli>(end - start).count(); \
 timing::totals()[key] += ms;                    \
 } while (0)
 
-#endif // CUDAHISTOGRAMS_TIMER_HPP
+#endif
