@@ -1,0 +1,156 @@
+f874a8c
+Iterations: 10
++---------------------------------------------------------------------+---------+----------+------------+-----------+-------------+
+| Test Name                                                           | Threads | Bin Size |   Elements | Time (ms) | Speedup (x) |
++---------------------------------------------------------------------+---------+----------+------------+-----------+-------------+
+| Baseline                                                            |       1 |      512 | 1000000000 |  5230.995 |       1.00x |
+| Threaded Reduction CPU-Histogram                                    |       8 |      512 | 1000000000 |  1035.517 |       5.05x |
+| Threaded Reduction CPU-Histogram                                    |      16 |      512 | 1000000000 |   944.948 |       5.54x |
+| Threaded Reduction CPU-Histogram                                    |      32 |      512 | 1000000000 |   759.795 |       6.88x |
+| Threaded Reduction CPU-Histogram                                    |      64 |      512 | 1000000000 |   752.640 |       6.95x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |       8 |      512 | 1000000000 |  1834.862 |       2.85x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      16 |      512 | 1000000000 |  1729.321 |       3.02x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      32 |      512 | 1000000000 |  1692.382 |       3.09x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      64 |      512 | 1000000000 |  1620.351 |       3.23x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |       8 |      512 | 1000000000 |  2581.408 |       2.03x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      16 |      512 | 1000000000 |  2554.522 |       2.05x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      32 |      512 | 1000000000 |  2519.298 |       2.08x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      64 |      512 | 1000000000 |  2548.303 |       2.05x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |       8 |      512 | 1000000000 |  2573.544 |       2.03x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      16 |      512 | 1000000000 |  2625.645 |       1.99x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      32 |      512 | 1000000000 |  2595.668 |       2.02x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      64 |      512 | 1000000000 |  2593.204 |       2.02x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |       8 |      512 | 1000000000 |  1731.793 |       3.02x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      16 |      512 | 1000000000 |  1190.168 |       4.40x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      32 |      512 | 1000000000 |   817.464 |       6.40x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      64 |      512 | 1000000000 |  1295.588 |       4.04x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |       8 |      512 | 1000000000 |  1590.734 |       3.29x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      16 |      512 | 1000000000 |  1759.046 |       2.97x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      32 |      512 | 1000000000 |  1701.440 |       3.07x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      64 |      512 | 1000000000 |  1666.307 |       3.14x |
+| Baseline                                                            |       1 |     1024 | 1000000000 |  5178.265 |       1.00x |
+| Threaded Reduction CPU-Histogram                                    |       8 |     1024 | 1000000000 |  1015.261 |       5.10x |
+| Threaded Reduction CPU-Histogram                                    |      16 |     1024 | 1000000000 |   800.999 |       6.46x |
+| Threaded Reduction CPU-Histogram                                    |      32 |     1024 | 1000000000 |   749.970 |       6.90x |
+| Threaded Reduction CPU-Histogram                                    |      64 |     1024 | 1000000000 |   756.652 |       6.84x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |       8 |     1024 | 1000000000 |  1755.874 |       2.95x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      16 |     1024 | 1000000000 |  1633.270 |       3.17x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      32 |     1024 | 1000000000 |  1644.338 |       3.15x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      64 |     1024 | 1000000000 |  1616.094 |       3.20x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |       8 |     1024 | 1000000000 |  2534.218 |       2.04x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      16 |     1024 | 1000000000 |  2523.526 |       2.05x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      32 |     1024 | 1000000000 |  2523.014 |       2.05x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      64 |     1024 | 1000000000 |  2528.727 |       2.05x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |       8 |     1024 | 1000000000 |  2591.841 |       2.00x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      16 |     1024 | 1000000000 |  2584.564 |       2.00x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      32 |     1024 | 1000000000 |  2588.890 |       2.00x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      64 |     1024 | 1000000000 |  2599.325 |       1.99x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |       8 |     1024 | 1000000000 |  1735.830 |       2.98x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      16 |     1024 | 1000000000 |  1073.540 |       4.82x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      32 |     1024 | 1000000000 |   837.223 |       6.19x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      64 |     1024 | 1000000000 |  1104.672 |       4.69x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |       8 |     1024 | 1000000000 |  1725.839 |       3.00x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      16 |     1024 | 1000000000 |  1651.061 |       3.14x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      32 |     1024 | 1000000000 |  1665.713 |       3.11x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      64 |     1024 | 1000000000 |  1641.523 |       3.15x |
+| Baseline                                                            |       1 |     2048 | 1000000000 |  7353.931 |       1.00x |
+| Threaded Reduction CPU-Histogram                                    |       8 |     2048 | 1000000000 |  1067.157 |       6.89x |
+| Threaded Reduction CPU-Histogram                                    |      16 |     2048 | 1000000000 |   794.746 |       9.25x |
+| Threaded Reduction CPU-Histogram                                    |      32 |     2048 | 1000000000 |   774.323 |       9.50x |
+| Threaded Reduction CPU-Histogram                                    |      64 |     2048 | 1000000000 |   761.954 |       9.65x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |       8 |     2048 | 1000000000 |  1815.931 |       4.05x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      16 |     2048 | 1000000000 |  1677.381 |       4.38x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      32 |     2048 | 1000000000 |  1648.844 |       4.46x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      64 |     2048 | 1000000000 |  1634.005 |       4.50x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |       8 |     2048 | 1000000000 |  2557.974 |       2.87x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      16 |     2048 | 1000000000 |  2532.866 |       2.90x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      32 |     2048 | 1000000000 |  2548.837 |       2.89x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      64 |     2048 | 1000000000 |  2552.682 |       2.88x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |       8 |     2048 | 1000000000 |  2626.764 |       2.80x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      16 |     2048 | 1000000000 |  2603.710 |       2.82x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      32 |     2048 | 1000000000 |  2606.758 |       2.82x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      64 |     2048 | 1000000000 |  2607.641 |       2.82x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |       8 |     2048 | 1000000000 |  1856.523 |       3.96x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      16 |     2048 | 1000000000 |  1158.501 |       6.35x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      32 |     2048 | 1000000000 |   825.759 |       8.91x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      64 |     2048 | 1000000000 |  1082.173 |       6.80x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |       8 |     2048 | 1000000000 |  1748.249 |       4.21x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      16 |     2048 | 1000000000 |  1701.959 |       4.32x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      32 |     2048 | 1000000000 |  1712.599 |       4.29x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      64 |     2048 | 1000000000 |  1696.839 |       4.33x |
+| Baseline                                                            |       1 |     4096 | 1000000000 |  5422.442 |       1.00x |
+| Threaded Reduction CPU-Histogram                                    |       8 |     4096 | 1000000000 |  1041.097 |       5.21x |
+| Threaded Reduction CPU-Histogram                                    |      16 |     4096 | 1000000000 |   812.005 |       6.68x |
+| Threaded Reduction CPU-Histogram                                    |      32 |     4096 | 1000000000 |   761.888 |       7.12x |
+| Threaded Reduction CPU-Histogram                                    |      64 |     4096 | 1000000000 |   749.451 |       7.24x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |       8 |     4096 | 1000000000 |  1969.715 |       2.75x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      16 |     4096 | 1000000000 |  1791.428 |       3.03x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      32 |     4096 | 1000000000 |  1804.527 |       3.00x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      64 |     4096 | 1000000000 |  1773.637 |       3.06x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |       8 |     4096 | 1000000000 |  2628.690 |       2.06x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      16 |     4096 | 1000000000 |  2626.435 |       2.06x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      32 |     4096 | 1000000000 |  2636.890 |       2.06x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      64 |     4096 | 1000000000 |  2662.055 |       2.04x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |       8 |     4096 | 1000000000 |  2696.628 |       2.01x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      16 |     4096 | 1000000000 |  2690.146 |       2.02x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      32 |     4096 | 1000000000 |  2701.186 |       2.01x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      64 |     4096 | 1000000000 |  2759.070 |       1.97x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |       8 |     4096 | 1000000000 |  1937.710 |       2.80x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      16 |     4096 | 1000000000 |  1195.592 |       4.54x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      32 |     4096 | 1000000000 |   852.811 |       6.36x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      64 |     4096 | 1000000000 |  1018.732 |       5.32x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |       8 |     4096 | 1000000000 |  1840.333 |       2.95x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      16 |     4096 | 1000000000 |  1821.342 |       2.98x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      32 |     4096 | 1000000000 |  1824.774 |       2.97x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      64 |     4096 | 1000000000 |  1836.785 |       2.95x |
+| Baseline                                                            |       1 |    32768 | 1000000000 |  7256.386 |       1.00x |
+| Threaded Reduction CPU-Histogram                                    |       8 |    32768 | 1000000000 |  1224.172 |       5.93x |
+| Threaded Reduction CPU-Histogram                                    |      16 |    32768 | 1000000000 |   836.795 |       8.67x |
+| Threaded Reduction CPU-Histogram                                    |      32 |    32768 | 1000000000 |   727.141 |       9.98x |
+| Threaded Reduction CPU-Histogram                                    |      64 |    32768 | 1000000000 |   767.032 |       9.46x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |       8 |    32768 | 1000000000 |  2284.772 |       3.18x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      16 |    32768 | 1000000000 |  2113.691 |       3.43x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      32 |    32768 | 1000000000 |  2110.000 |       3.44x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      64 |    32768 | 1000000000 |  2109.595 |       3.44x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |       8 |    32768 | 1000000000 |  2863.180 |       2.53x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      16 |    32768 | 1000000000 |  2875.207 |       2.52x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      32 |    32768 | 1000000000 |  2872.578 |       2.53x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      64 |    32768 | 1000000000 |  2877.953 |       2.52x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |       8 |    32768 | 1000000000 |  2942.955 |       2.47x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      16 |    32768 | 1000000000 |  2945.182 |       2.46x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      32 |    32768 | 1000000000 |  2948.746 |       2.46x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      64 |    32768 | 1000000000 |  2963.637 |       2.45x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |       8 |    32768 | 1000000000 |  2294.675 |       3.16x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      16 |    32768 | 1000000000 |  1344.573 |       5.40x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      32 |    32768 | 1000000000 |   899.490 |       8.07x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      64 |    32768 | 1000000000 |  1255.469 |       5.78x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |       8 |    32768 | 1000000000 |  2099.631 |       3.46x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      16 |    32768 | 1000000000 |  2107.729 |       3.44x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      32 |    32768 | 1000000000 |  2105.711 |       3.45x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      64 |    32768 | 1000000000 |  2116.381 |       3.43x |
+| Baseline                                                            |       1 |   131072 | 1000000000 |  7885.049 |       1.00x |
+| Threaded Reduction CPU-Histogram                                    |       8 |   131072 | 1000000000 |  1326.159 |       5.95x |
+| Threaded Reduction CPU-Histogram                                    |      16 |   131072 | 1000000000 |   910.963 |       8.66x |
+| Threaded Reduction CPU-Histogram                                    |      32 |   131072 | 1000000000 |   797.040 |       9.89x |
+| Threaded Reduction CPU-Histogram                                    |      64 |   131072 | 1000000000 |   869.843 |       9.06x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |       8 |   131072 | 1000000000 |  2730.745 |       2.89x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      16 |   131072 | 1000000000 |  2620.771 |       3.01x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      32 |   131072 | 1000000000 |  2701.986 |       2.92x |
+| Threaded Reduction CPU-Histogram With CORE Affinity (8)             |      64 |   131072 | 1000000000 |  2698.427 |       2.92x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |       8 |   131072 | 1000000000 |  3063.667 |       2.57x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      16 |   131072 | 1000000000 |  3071.258 |       2.57x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      32 |   131072 | 1000000000 |  3088.180 |       2.55x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch             |      64 |   131072 | 1000000000 |  3107.332 |       2.54x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |       8 |   131072 | 1000000000 |  3153.768 |       2.50x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      16 |   131072 | 1000000000 |  3159.060 |       2.50x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      32 |   131072 | 1000000000 |  3169.698 |       2.49x |
+| Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling |      64 |   131072 | 1000000000 |  3199.565 |       2.46x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |       8 |   131072 | 1000000000 |  2689.625 |       2.93x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      16 |   131072 | 1000000000 |  1658.405 |       4.75x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      32 |   131072 | 1000000000 |  1014.449 |       7.77x |
+| Threaded Reduction CPU-Histogram With Pinned threads                |      64 |   131072 | 1000000000 |  1484.170 |       5.31x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |       8 |   131072 | 1000000000 |  2739.647 |       2.88x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      16 |   131072 | 1000000000 |  2740.147 |       2.88x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      32 |   131072 | 1000000000 |  2778.313 |       2.84x |
+| Threaded Reduction CPU-Histogram With Unrolling                     |      64 |   131072 | 1000000000 |  2826.267 |       2.79x |
++---------------------------------------------------------------------+---------+----------+------------+-----------+-------------+

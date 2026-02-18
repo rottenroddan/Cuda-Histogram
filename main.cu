@@ -22,9 +22,9 @@ constexpr size_t largeDataSize = mediumDataSize * 100;
 // constexpr size_t hugeDataSize = largeDataSize * 10;
 
 std::vector V_TEST_SIZES = {largeDataSize};
-std::vector V_BIN_SIZES = {512, 1024, 2048, 4096};
+std::vector V_BIN_SIZES = {512, 1024, 2048, 4096, 32768, 131072};
 //std::vector V_BIN_SIZES = {128, 256};
-std::vector V_THREAD_COUNTS = {16, 32, 64};
+std::vector V_THREAD_COUNTS = {8, 16, 32, 64};
 //std::vector V_THREAD_COUNTS = {8, 16, 32};
 
 std::string comma_separate(const size_t value) {
@@ -112,7 +112,7 @@ int main() {
     const auto end = std::chrono::system_clock::now();
 
 
-    std::ofstream outFile("thread_pool_results_on_host_reduction_algorithm.txt");
+    std::ofstream outFile(std::string(GIT_HASH) + "_initial_thread_pool_results_on_host_reduction_algorithm.txt");
     if (!outFile) {
         std::cerr << "Could not open file for writing!" << std::endl;
         return 1;
