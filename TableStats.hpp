@@ -13,20 +13,20 @@
 
 class TimingTablePrinter {
 public:
-    static constexpr auto NAME_HEADER  = "Test Name";
-    static constexpr auto BIN_HEADER   = "Bin Size";
-    static constexpr auto SIZE_HEADER  = "Elements";
-    static constexpr auto TIME_HEADER  = "Time (ms)";
-    static constexpr auto SPEED_HEADER = "Speedup (x)";
+    static constexpr auto NAME_HEADER   = "Test Name";
+    static constexpr auto BIN_HEADER    = "Bin Size";
+    static constexpr auto SIZE_HEADER   = "Elements";
+    static constexpr auto TIME_HEADER   = "Time (ms)";
+    static constexpr auto SPEED_HEADER  = "Speedup (x)";
     static constexpr auto THREAD_HEADER = "Threads";
 
-    static void print() {
+    static void print(std::ostream& os = std::cout) {
         using namespace timing;
 
         std::lock_guard<std::mutex> lock(mutex());
 
         if (totals().empty()) {
-            std::cout << "No timing data collected.\n";
+            os << "No timing data collected.\n";
             return;
         }
 
@@ -41,12 +41,12 @@ public:
             }
         }
 
-        size_t nameWidth  = std::strlen(NAME_HEADER);
-        size_t threadWidth  = std::strlen(THREAD_HEADER);
-        size_t binWidth   = std::strlen(BIN_HEADER);
-        size_t sizeWidth  = std::strlen(SIZE_HEADER);
-        size_t timeWidth  = std::strlen(TIME_HEADER);
-        size_t speedWidth = std::strlen(SPEED_HEADER);
+        size_t nameWidth   = std::strlen(NAME_HEADER);
+        size_t threadWidth = std::strlen(THREAD_HEADER);
+        size_t binWidth    = std::strlen(BIN_HEADER);
+        size_t sizeWidth   = std::strlen(SIZE_HEADER);
+        size_t timeWidth   = std::strlen(TIME_HEADER);
+        size_t speedWidth  = std::strlen(SPEED_HEADER);
 
         std::map<timing::Key, double> computedSpeedups;
 
@@ -55,8 +55,8 @@ public:
             double speedup = 1.0;
 
             if (key.testName != "Baseline") {
-                auto it = baselineTimes.find({key.binSize, key.dataSize});
-                if (it != baselineTimes.end() && time > 0.0) {
+                if (auto it = baselineTimes.find({key.binSize, key.dataSize});
+                    it != baselineTimes.end() && time > 0.0) {
                     speedup = it->second / time;
                 } else {
                     speedup = 0.0;
@@ -76,23 +76,23 @@ public:
         const auto separator =
             makeSeparator(nameWidth, threadWidth, binWidth, sizeWidth, timeWidth, speedWidth);
 
-        std::cout << separator << "\n";
-        printHeader(nameWidth, threadWidth, binWidth, sizeWidth, timeWidth, speedWidth);
-        std::cout << separator << "\n";
+        os << separator << "\n";
+        printHeader(os, nameWidth, threadWidth, binWidth, sizeWidth, timeWidth, speedWidth);
+        os << separator << "\n";
 
         for (const auto& [key, time] : totals()) {
-            double speedup = computedSpeedups[key];
+            const double speedup = computedSpeedups[key];
 
-            std::cout << "| " << std::left  << std::setw(nameWidth)  << key.testName
-                      << " | " << std::right << std::setw(threadWidth)   << key.threadCount
-                      << " | " << std::right << std::setw(binWidth)   << key.binSize
-                      << " | " << std::right << std::setw(sizeWidth)  << key.dataSize
-                      << " | " << std::right << std::setw(timeWidth)  << formatTime(time)
-                      << " | " << std::right << std::setw(speedWidth) << formatSpeedup(speedup)
-                      << " |\n";
+            os << "| " << std::left  << std::setw(nameWidth)   << key.testName
+               << " | " << std::right << std::setw(threadWidth) << key.threadCount
+               << " | " << std::right << std::setw(binWidth)    << key.binSize
+               << " | " << std::right << std::setw(sizeWidth)   << key.dataSize
+               << " | " << std::right << std::setw(timeWidth)   << formatTime(time)
+               << " | " << std::right << std::setw(speedWidth)  << formatSpeedup(speedup)
+               << " |\n";
         }
 
-        std::cout << separator << "\n";
+        os << separator << "\n";
     }
 
 private:
@@ -109,12 +109,12 @@ private:
         return oss.str();
     }
 
-    static std::string makeSeparator(size_t nameW,
-                                     size_t threadW,
-                                     size_t binW,
-                                     size_t sizeW,
-                                     size_t timeW,
-                                     size_t speedW) {
+    static std::string makeSeparator(const size_t nameW,
+                                     const size_t threadW,
+                                     const size_t binW,
+                                     const size_t sizeW,
+                                     const size_t timeW,
+                                     const size_t speedW) {
         return "+"
              + std::string(nameW + 2, '-')
              + "+" + std::string(threadW + 2, '-')
@@ -125,14 +125,15 @@ private:
              + "+";
     }
 
-    static void printHeader(const size_t nameW,
+    static void printHeader(std::ostream& os,
+                            const size_t nameW,
                             const size_t threadW,
                             const size_t binW,
                             const size_t sizeW,
                             const size_t timeW,
                             const size_t speedW) {
-        std::cout
-            << "| " << std::left  << std::setw(nameW)    << NAME_HEADER
+        os
+            << "| " << std::left  << std::setw(nameW)   << NAME_HEADER
             << " | " << std::right << std::setw(threadW) << THREAD_HEADER
             << " | " << std::right << std::setw(binW)    << BIN_HEADER
             << " | " << std::right << std::setw(sizeW)   << SIZE_HEADER

@@ -19,7 +19,7 @@ if(MSVC)
             /permissive-
             /Zc:__cplusplus
             /WX
-            /arch:AVX2
+            /arch:AVX512
     )
 endif()
 
@@ -28,6 +28,12 @@ add_executable(CudaHistograms  main.cu)
 target_link_libraries(CudaHistograms
         PRIVATE CpuHistograms
 )
+
+execute_process(COMMAND git rev-parse --short HEAD
+        OUTPUT_VARIABLE GIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+add_compile_definitions(GIT_HASH="${GIT_HASH}")
 
 set_target_properties(CudaHistograms PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)

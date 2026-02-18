@@ -38,6 +38,6 @@ void solveThreadedNaiveHistogram(const T &data, const U &histogram, const size_t
 void profile_threaded_naive_cpu_histogram(const std::shared_ptr<int[]> &data,
                                           const std::shared_ptr<int[]> &truthHistogram,
                                           const std::shared_ptr<int[]> &testHistogram,
-                                          size_t dataSize, int maxVal, const std::string &testName);
+                                          size_t dataSize, int maxVal, const std::string &testName, size_t iterations);
 
 #endif //CUDAHISTOGRAMS_NAIVETHREADEDHISTOGRAM_HPP

@@ -9,6 +9,13 @@
 
 #define CPU_THREADS 16
 
+template<typename T>
+void pre_touch(T* ptr, size_t count) {
+    volatile T sink = 0;
+    for (size_t i = 0; i < count; ++i)
+        sink += ptr[i];
+}
+
 template<typename T, typename U>
 void validate(const T& truth, const U& test, const size_t size) {
     for (size_t i = 0; i < size; ++i) {
