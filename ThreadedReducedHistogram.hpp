@@ -17,10 +17,9 @@
 
 #include "Common.hpp"
 #include "Timer.hpp"
-#include "ThreadPool.hpp"
 
 
-inline void pinThreadToCore(int core_id)
+inline void pinThreadToCore(const int core_id)
 {
     DWORD_PTR mask = (1ULL << core_id);
     HANDLE thread = GetCurrentThread();
@@ -34,17 +33,16 @@ inline void setThreadCoreAffinity(size_t threadIndex) {
 
 template<bool AMD_Thread_Affinity_Test = false, bool Explicit_Prefetch_Test = false, bool Unrolling_Test = false, bool Pin_Threads = false>
 void solveThreadedReducedHistogram(const std::shared_ptr<int[]>& data, const std::shared_ptr<int[]>& histogram, const std::shared_ptr<int[]>& reducedHistogram,
-    const size_t dataSize, const size_t maxVal, const size_t threadAmount, const size_t pageSize, const size_t reducedSize, const size_t perThreadBytesPaged, ThreadPool& pool) {
+    const size_t dataSize, const size_t maxVal, const size_t threadAmount, const size_t pageSize, const size_t reducedSize, const size_t perThreadBytesPaged) {
     static_assert(!(AMD_Thread_Affinity_Test && Pin_Threads));
     assert(threadAmount != 0 && (threadAmount & (threadAmount - 1)) == 0);
-    std::vector<std::thread> threads;
 
     const size_t elementsPerThread = (dataSize + threadAmount - 1) / threadAmount;
+    std::vector<std::thread> threads;
 
-    std::vector<std::future<void>> futures;
     std::barrier barrier(threadAmount);
     for (size_t t = 0; t < threadAmount; ++t) {
-        futures.push_back(pool.queue([=, &data, &reducedHistogram, &barrier]() {
+        threads.emplace_back([=, &data, &reducedHistogram, &barrier]() {
             if constexpr (AMD_Thread_Affinity_Test) {
                 setThreadCoreAffinity(t);
             }
@@ -96,11 +94,11 @@ void solveThreadedReducedHistogram(const std::shared_ptr<int[]>& data, const std
                 barrier.arrive_and_wait();
             }
             barrier.arrive_and_drop();
-        }));
+        });
     }
 
-    for (auto& future : futures) {
-        future.get();
+    for (auto& thread : threads) {
+        thread.join();
     }
 
     for (size_t i = 0; i < maxVal; ++i) {
@@ -112,7 +110,7 @@ void solveThreadedReducedHistogram(const std::shared_ptr<int[]>& data, const std
 
 template<bool AMD_Thread_Affinity_Test = false, bool Explicit_Prefetch_Test = false, bool Unrolling_Test = false, bool Pin_Threads = false>
 void profile_threaded_reduced_cpu_histogram(const std::shared_ptr<int[]> &data, const std::shared_ptr<int[]> &truthHistogram, const std::shared_ptr<int[]> &testHistogram,
-                                                   const size_t dataSize, const int maxVal, const size_t threadAmount, const std::string &testName, const size_t iterations, ThreadPool& pool) {
+                                                   const size_t dataSize, const int maxVal, const size_t threadAmount, const std::string &testName, const size_t iterations) {
     SYSTEM_INFO si;
     GetSystemInfo(&si);
     const size_t pageSize = si.dwPageSize;
@@ -135,14 +133,14 @@ void profile_threaded_reduced_cpu_histogram(const std::shared_ptr<int[]> &data, 
 
     // warmup
     solveThreadedReducedHistogram<AMD_Thread_Affinity_Test, Explicit_Prefetch_Test, Unrolling_Test, Pin_Threads>(data, testHistogram, reducedHistogram,
-            dataSize, static_cast<size_t>(maxVal), threadAmount, pageSize, reducedSize, perThreadBytesPaged, pool);
+            dataSize, static_cast<size_t>(maxVal), threadAmount, pageSize, reducedSize, perThreadBytesPaged);
 
     for (size_t i = 0; i < iterations; ++i) {
         memset(reducedHistogram.get(), 0, reducedSize);
         clear(testHistogram.get(), maxVal); // clear last test if any.
         TIMING_BEGIN(testName, static_cast<size_t>(maxVal), dataSize, threadAmount);
         solveThreadedReducedHistogram<AMD_Thread_Affinity_Test, Explicit_Prefetch_Test, Unrolling_Test, Pin_Threads>(data, testHistogram, reducedHistogram,
-            dataSize, maxVal, threadAmount, pageSize, reducedSize, perThreadBytesPaged, pool);
+            dataSize, maxVal, threadAmount, pageSize, reducedSize, perThreadBytesPaged);
         TIMING_END(testName, static_cast<size_t>(maxVal), dataSize, threadAmount);
         validate(truthHistogram, testHistogram, maxVal);
     }

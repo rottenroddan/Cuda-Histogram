@@ -2,7 +2,6 @@
 #include "NaiveHistogramSolver.hpp"
 #include "NaiveThreadedHistogram.hpp"
 #include "ThreadedChunkedHistogram.hpp"
-#include "ThreadPool.hpp"
 #include "ThreadedReducedHistogram.hpp"
 #include "TableStats.hpp"
 
@@ -84,26 +83,24 @@ int main() {
             // }
 
             for (const auto& threadCount : V_THREAD_COUNTS ) {
-                ThreadPool pool(threadCount);
-
                 profile_threaded_reduced_cpu_histogram(data, truthHistogram, testHistogram,
-                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram", iterations, pool);
+                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram", iterations);
 
                 // AMD ICD 0 test
                 profile_threaded_reduced_cpu_histogram<true, false, false>(data, truthHistogram, testHistogram,
-                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With CORE Affinity (8)", iterations, pool);
+                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With CORE Affinity (8)", iterations);
                 // Prefetching and Loop Unrolling
                 profile_threaded_reduced_cpu_histogram<false, true, false>(data, truthHistogram, testHistogram,
-                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Explicit PreFetch", iterations, pool);
+                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Explicit PreFetch", iterations);
                 // Prefetching and Loop Unrolling
                 profile_threaded_reduced_cpu_histogram<false, true, true>(data, truthHistogram, testHistogram,
-                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling", iterations, pool);
+                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Explicit PreFetch & Unrolling", iterations);
                 // Unrolling
                 profile_threaded_reduced_cpu_histogram<false, false, true>(data, truthHistogram, testHistogram,
-                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Unrolling", iterations, pool);
+                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Unrolling", iterations);
                 // Pin threads so caching isn't lost.
                 profile_threaded_reduced_cpu_histogram<false, false, false, true>(data, truthHistogram, testHistogram,
-                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Pinned threads", iterations, pool);
+                                                        testSize, binSize, threadCount, "Threaded Reduction CPU-Histogram With Pinned threads", iterations);
 
             }
             std::cout << "finished." << std::endl;
